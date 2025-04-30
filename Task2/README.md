@@ -5,6 +5,7 @@
 **Parsing log file**
 
     To parse logfile I used cookie
+
    ```bash
    curl -L \
   -H "Cookie: MoodleSession=******" \  "https://softserve.academy/pluginfile.php/452507/mod_resource/content/1/softaculous%20%282%29.log" \
