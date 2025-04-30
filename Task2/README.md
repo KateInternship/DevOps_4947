@@ -4,7 +4,7 @@
 
 **Parsing log file**
 
-    To parse logfile I used cookie
+    To parse logfile I used cookie of Moodle Session
 
    ```bash
    curl -L \
