@@ -13,7 +13,7 @@ To parse logfile I used cookie of Moodle Session
    ```
 **Amount of started and stopped services**
 
-    To find the number of started and stopped processes, I used grep to locate the relevant lines and then counted them.
+To find the number of started and stopped processes, I used grep to locate the relevant lines and then counted them.
     
     ```bash
     started=$(grep -c "Finished Install" "$LOG")
