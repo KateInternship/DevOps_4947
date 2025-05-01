@@ -1,10 +1,10 @@
 ## TASK2 ##
 
-    Create bash scripting (parse the log file and find how many services are started and stopped, check the tapes with existing passwords, and check the passwords for complexity and compliance with the requirements (length of at least 12 characters and others)
+Create bash scripting (parse the log file and find how many services are started and stopped, check the tapes with existing passwords, and check the passwords for complexity and compliance with the requirements (length of at least 12 characters and others)
 
 **Parsing log file**
 
-    To parse logfile I used cookie of Moodle Session
+To parse logfile I used cookie of Moodle Session
 
    ```bash
    curl -L \
