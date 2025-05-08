@@ -1,0 +1,23 @@
+# Git
+.git/
+
+# Vagrant
+.vagrant/
+
+# SSH keys
+keys/
+host_id_ed25519
+host_id_ed25519.pub
+
+# Логи і тимчасові файли
+*.log
+*.tmp
+
+# IDE/Editor
+*.swp
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+Thumbs.db
