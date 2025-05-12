@@ -1,15 +1,12 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/alpine38"
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+  config.vm.synced_folder "./flask_app/csv_logs", "/vagrant/csv_logs", type: "virtualbox"
 
   (1..3).each do |i|
     config.vm.define "sftp#{i}" do |vm|
       vm.vm.hostname = "sftp#{i}"
       vm.vm.network "private_network", ip: "192.168.198.#{i + 1}"
-
-    #  if i == 1
-    #    vm.vm.synced_folder "./incoming_vm1", "/home/vagrant/incoming", type: "virtualbox"
-    #  end
 
       vm.vm.provider "virtualbox" do |vb|
         vb.memory = 512
@@ -34,14 +31,14 @@ Vagrant.configure("2") do |config|
           name: "audit",
           path: "scripts/audit_rkhunter.sh",
           privileged: true,
-          run: "once"
+          run: "never"
 
         vm.vm.provision "shell",
           name: "heartbeat_cron",
           path: "scripts/setup_heartbeat_cron.sh",
           privileged: true,
-          run: "once"
-
+          run: "never"
+        
     end
   end
 end

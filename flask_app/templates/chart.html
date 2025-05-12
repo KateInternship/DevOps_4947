@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ machine }} @ {{ selected.strftime('%d.%m.%Y') }}{% endblock %}
+{% block content %}
+<a href="{{ url_for('index') }}" class="back">← Інший вибір</a>
+<h2 class="title">{{ machine }} на {{ selected.strftime('%d.%m.%Y') }}</h2>
+
+{% if not any_logs %}
+  <p class="empty">Жодних логів для обраної машини та дати.</p>
+{% else %}
+  {% for fname, info in data.items() %}
+    <section class="machine-chart">
+      <h3>{{ fname }}</h3>
+      {% if info.max == 0 %}
+        <p class="empty">Немає логів у цьому файлі.</p>
+      {% else %}
+        <div class="chart-container">
+          <svg viewBox="0 0 960 400" class="line-chart">
+            <line x1="40" y1="360" x2="940" y2="360" class="axis"/>
+            <line x1="40" y1="20" x2="40" y2="360" class="axis"/>
+            {% for label in slots %}
+              {% set i = loop.index0 %}
+              {% if i % 6 == 0 %}
+                <text x="{{ 40 + 900*(i/(slots|length-1)) }}" y="380" class="xlabel">{{ label }}</text>
+              {% endif %}
+            {% endfor %}
+            <polyline
+              fill="none" stroke-width="2" class="line"
+              points="{% for c in info.counts %}{% set i = loop.index0 %}{{ 40 + 900*(i/(info.counts|length-1)) }},{{ 360 - (c/info.max*320) }} {% endfor %}"
+            />
+          </svg>
+        </div>
+      {% endif %}
+    </section>
+  {% endfor %}
+{% endif %}
+{% endblock %}

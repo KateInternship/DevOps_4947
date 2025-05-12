@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Ping Timeline{% endblock %}
+{% block content %}
+<h1 class="title">Select Date and Machine</h1>
+<form method="post" class="picker">
+  <input type="date" name="date" value="{{ selected.strftime('%Y-%m-%d') if selected }}" required>
+  <select name="machine" required>
+    <option disabled {{ not selected_machine and 'selected' }}>-- choose machine --</option>
+    {% for m in machines %}
+      <option value="{{ m }}" {% if m == selected_machine %}selected{% endif %}>{{ m }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Show Charts</button>
+</form>
+
+{% if selected and selected_machine %}
+  {% if not has_logs %}
+    <p class="empty">No logs for {{ selected_machine }} on {{ selected.strftime('%d.%m.%Y') }}.</p>
+  {% else %}
+    {% for fname, info in data.items() %}
+      <section class="machine-chart">
+        <h3>{{ fname }}</h3>
+        {% if info.max == 0 %}
+          <p class="empty">No entries in this file.</p>
+        {% else %}
+          <div class="chart-container">
+            <svg viewBox="0 0 960 400" class="line-chart">
+              <line x1="40" y1="360" x2="940" y2="360" class="axis"/>
+              <line x1="40" y1="20" x2="40" y2="360" class="axis"/>
+              {% for label in slots %}
+                {% set i = loop.index0 %}
+                {% if i % 6 == 0 %}
+                  <text x="{{ 40 + 900*(i/(slots|length-1)) }}" y="380" class="xlabel">{{ label }}</text>
+                {% endif %}
+              {% endfor %}
+              <polyline
+                fill="none" stroke-width="2" class="line"
+                points="{% for c in info.counts %}{% set i = loop.index0 %}{{ 40 + 900*(i/(info.counts|length-1)) }},{{ 360 - (c/info.max*320) }} {% endfor %}"
+              />
+            </svg>
+          </div>
+        {% endif %}
+      </section>
+    {% endfor %}
+  {% endif %}
+{% endif %}
+{% endblock %}
